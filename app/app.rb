@@ -5,7 +5,7 @@ require 'sinatra/flash'
 require './app/models/message'
 require './app/models/user'
 require './db_setup'
-require 'rom-sql'
+
 
 class Chitter < Sinatra::Base
   enable :sessions, :method_override
