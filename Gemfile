@@ -14,4 +14,5 @@ gem 'simplecov', require: false
 gem 'simplecov-console', require: false
 gem 'sinatra-flash', '~> 0.3.0'
 gem 'bcrypt', '~> 3.1.11'
-gem 'rack'
+gem 'data_mapper'
+gem 'dm-postgres-adapter'

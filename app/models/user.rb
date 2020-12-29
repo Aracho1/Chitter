@@ -1,8 +1,10 @@
 require 'bcrypt'
 require './lib/db_connection'
+require 'data_mapper'
 
 class User
   include BCrypt
+  include DataMapper::Resource
   attr_reader :id, :username, :name, :email, :password_hash
 
   def initialize(id:, username:, name:, email:, password:)
