@@ -90,6 +90,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.11)
   capybara
   pg
+  rack
   rspec
   rubocop (= 0.79.0)
   shotgun
