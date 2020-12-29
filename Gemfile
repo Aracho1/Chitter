@@ -14,3 +14,7 @@ gem 'simplecov', require: false
 gem 'simplecov-console', require: false
 gem 'sinatra-flash', '~> 0.3.0'
 gem 'bcrypt', '~> 3.1.11'
+
+group :production do
+  gem 'pg'
+end

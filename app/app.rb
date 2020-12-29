@@ -1,3 +1,5 @@
+ENV['ENVIRONMENT'] ||= 'development'
+
 require 'sinatra/base'
 require 'sinatra/flash'
 require './app/models/message'

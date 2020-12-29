@@ -1,13 +1,10 @@
-CREATE OR REPLACE FUNCTION trigger_set_timestamp()
-RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION public.trigger_set_timestamp()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
 BEGIN
   NEW.created_at = NOW();
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$function$
 
-CREATE FUNCTION
-chitter=# CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON messages
-FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_timestamp();
