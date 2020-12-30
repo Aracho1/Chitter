@@ -14,7 +14,7 @@
 <% end %>
 
 <div class="post-wrapper">
-<% @messages.reverse.each do |message| %>
+<% @messages.each do |message| %>
   <div class="post-box">
   <div id="name"><b><%= message.user %></b> <span class="username">@<%= message.user %> </span> </div>
   <div id="content"><%= message.content %> </div>

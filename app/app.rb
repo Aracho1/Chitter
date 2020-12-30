@@ -2,16 +2,18 @@ ENV['ENVIRONMENT'] ||= 'development'
 
 require 'sinatra/base'
 require 'sinatra/flash'
-require './app/models/message'
-require './app/models/user'
-require 'data_mapper'
-require_relative 'data_mapper_setup'
+require 'active_record'
+# require './app/models/message'
+# require './app/models/user'
+require 'sinatra/activerecord'
 
+Dir[File.dirname(__FILE__) + '/models/*.rb'].each { |file| require file }
 
 class Chitter < Sinatra::Base
   enable :sessions, :method_override
   set :session_secret, 'super secret'
   register Sinatra::Flash
+  register Sinatra::ActiveRecordExtension
 
   get '/' do
     erb :login, :layout => :layout
@@ -58,12 +60,12 @@ class Chitter < Sinatra::Base
   get '/home' do
     @user = User.get(session[:user])
     @users = User.all
-    @messages = Message.all
+    @messages = Message.all.order(created_at: :desc)
     erb :home, :layout => :layout
   end
 
   post '/new' do
-    @user = User.get(session[:user])
+    @user = User.find_by(session[:user])
     flash[:notice] = "The message exceeds 240 characters." unless Message.create(content: params[:new_message], 
                                                                                 user: @user.username, 
                                                                                 created_at: DateTime.now.strftime('%a, %d %b %Y %H:%M'))
@@ -77,12 +79,12 @@ class Chitter < Sinatra::Base
   end
 
   get '/message/:id/edit' do
-    @message = Message.get(params[:id])
+    @message = Message.find_by(params[:id])
     erb :edit
   end
 
   patch '/message/:id' do
-    @message = Message.get(params[:id])
+    @message = Message.find_by(params[:id])
     @message.content = params[:content]
     @message.save
     flash[:notice] = "Succesfully updated."
@@ -90,7 +92,7 @@ class Chitter < Sinatra::Base
   end
 
   delete '/message/:id' do
-    Message.get(params[:id]).destroy
+    Message.destroy_by(params[:id])
     flash[:notice] = "Message has been successfully deleted."
     redirect '/home'
   end

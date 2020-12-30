@@ -14,6 +14,6 @@ gem 'simplecov', require: false
 gem 'simplecov-console', require: false
 gem 'sinatra-flash', '~> 0.3.0'
 gem 'bcrypt', '~> 3.1.11'
-gem 'data_mapper'
-gem 'dm-postgres-adapter'
-gem 'dm-validations'
+gem 'activerecord', '~> 5.0', :require => 'active_record'
+gem 'sinatra-activerecord'
+gem 'rake'

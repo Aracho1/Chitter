@@ -1,23 +1,24 @@
 require 'bcrypt'
-# require './lib/db_connection'
-require 'data_mapper'
-require 'dm-validations'
-require_relative '../data_mapper_setup'
-require 'dm-postgres-adapter'
-# require 'dm-sqlite-adapter'
+require 'active_record'
 
-class User
+class User < ActiveRecord::Base
   include BCrypt
-  include DataMapper::Resource
 
-  attr_reader :password
-  attr_accessor :password_confirmation
+  has_many :messages
+  has_secure_password
 
-  property :id, Serial
-  property :username, String, required: true, unique: true
-  property :name, String, required: true
-  property :email, String, required: true, :format => :email_address, unique: true
-  property :password_digest, Text
+  validates :username, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true
+  validates :password, presence: true, length: { in: 6..20 }
+
+  # attr_reader :password
+  # attr_accessor :password_confirmation
+
+  # property :id, Serial
+  # property :username, String, required: true, unique: true
+  # property :name, String, required: true
+  # property :email, String, required: true, :format => :email_address, unique: true
+  # property :password_digest, Text
 
 
   def self.authenticate(email, password)
@@ -30,6 +31,5 @@ class User
     self.password_digest = Password.create(password)
   end
 
-  validates_confirmation_of :password
 
 end
