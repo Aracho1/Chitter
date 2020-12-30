@@ -5,8 +5,8 @@ require 'sinatra/flash'
 require './app/models/message'
 require './app/models/user'
 require 'data_mapper'
+require_relative 'data_mapper_setup'
 
-DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/chitter')
 
 class Chitter < Sinatra::Base
   enable :sessions, :method_override
@@ -22,11 +22,6 @@ class Chitter < Sinatra::Base
   end
 
   post '/signup' do
-    # if params[:password] != params[:confirm_password]
-    #   flash[:notice] = 'The passwords do not match. Please try again.'
-    #   redirect '/signup'
-    # end
-    
     user = User.create(username:params[:username],  
                     name:params[:name], 
                     email:params[:email], 
@@ -36,9 +31,9 @@ class Chitter < Sinatra::Base
     if user.save
       flash[:notice] = 'The account has been successfully created. Please log in.'
       redirect '/'
-    # else 
-    #   flash[:notice] = 'The email or username is already taken. Please try another one.'
-    #   redirect '/signup'
+    else 
+      flash[:errors] = user.errors.full_messages
+      redirect '/signup'
     end
   end
 
@@ -90,7 +85,6 @@ class Chitter < Sinatra::Base
     @message = Message.get(params[:id])
     @message.content = params[:content]
     @message.save
-    # Message.edit(params[:id], params[:content])
     flash[:notice] = "Succesfully updated."
     redirect '/home'
   end

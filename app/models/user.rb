@@ -2,9 +2,9 @@ require 'bcrypt'
 # require './lib/db_connection'
 require 'data_mapper'
 require 'dm-validations'
+require_relative '../data_mapper_setup'
+require 'dm-postgres-adapter'
 # require 'dm-sqlite-adapter'
-
-DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/chitter')
 
 class User
   include BCrypt
@@ -18,7 +18,6 @@ class User
   property :name, String, required: true
   property :email, String, required: true, :format => :email_address, unique: true
   property :password_digest, Text
-
 
   # def initialize(id:, username:, name:, email:, password:)
   #   @id = id
@@ -72,5 +71,5 @@ class User
 
 end
 
-DataMapper.finalize
-User.auto_upgrade!
+# DataMapper.finalize
+# User.auto_upgrade!

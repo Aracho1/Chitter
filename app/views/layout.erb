@@ -9,12 +9,24 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Pacifico&family=Ubuntu&family=Dosis:wght@400;800&family=Open+Sans&display=swap" rel="stylesheet">
   </head>
   <body>
-  <div id="flash">
-    <% flash.keys.each do |type| %>
-      <div data-alert class="flash <%= type %> alert-box radius">
-        <%= flash[type] %>
+  <% if flash[:notice] %>
+
+      <div class="flash">
+        <%= flash[:notice] %>
       </div>
+    <% end %>
+
+
+    <% if flash[:errors] && !flash[:errors].empty? %>
+
+      <div>
+        <% flash[:errors].each do |error| %>
+        <div class="flash">
+        <%= error %>
+        </div>
+        <% end %>
       </div>
+
     <% end %>
     <%= yield %>
   </body>

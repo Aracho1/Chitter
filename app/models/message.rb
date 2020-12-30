@@ -1,8 +1,8 @@
 require 'data_mapper'
 require 'dm-validations'
+require_relative '../data_mapper_setup'
+require 'dm-postgres-adapter'
 # require './lib/db_connection'
-
-DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/chitter')
 
 
 class Message

@@ -19,7 +19,7 @@
   <div id="name"><b><%= message.user %></b> <span class="username">@<%= message.user %> </span> </div>
   <div id="content"><%= message.content %> </div>
   <div id="timestamp"><%= message.created_at %></div>
-  <% if message.user == @user.username %>
+  <% if @user && (message.user == @user.username) %>
   <form action="/message/<%= message.id %>/edit" method="get" style="display: inline">
     <button type="submit" class="button">Edit</button>
   </form>
