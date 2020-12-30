@@ -4,8 +4,9 @@ require 'sinatra/base'
 require 'sinatra/flash'
 require './app/models/message'
 require './app/models/user'
-require './db_setup'
+require 'data_mapper'
 
+DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/chitter')
 
 class Chitter < Sinatra::Base
   enable :sessions, :method_override
@@ -21,26 +22,30 @@ class Chitter < Sinatra::Base
   end
 
   post '/signup' do
-    if params[:password] != params[:confirm_password]
-      flash[:notice] = 'The passwords do not match. Please try again.'
-      redirect '/signup'
-    end
+    # if params[:password] != params[:confirm_password]
+    #   flash[:notice] = 'The passwords do not match. Please try again.'
+    #   redirect '/signup'
+    # end
     
-    user = User.create(username:params[:username], password:params[:password], name:params[:name], email:params[:email])
+    user = User.create(username:params[:username],  
+                    name:params[:name], 
+                    email:params[:email], 
+                    password:params[:password],
+                    password_confirmation: params[:password_confirmation])
     
-    if user
+    if user.save
       flash[:notice] = 'The account has been successfully created. Please log in.'
       redirect '/'
-    else 
-      flash[:notice] = 'The email or username is already taken. Please try another one.'
-      redirect '/signup'
+    # else 
+    #   flash[:notice] = 'The email or username is already taken. Please try another one.'
+    #   redirect '/signup'
     end
   end
 
   post '/sessions' do
     user = User.authenticate(params[:email], params[:password])
     if user
-      session[:user] = user.email
+      session[:user] = user.id
       flash[:notice] = "Welcome back, #{user.username}!"
       redirect '/home'
     else
@@ -56,15 +61,17 @@ class Chitter < Sinatra::Base
 
 
   get '/home' do
-    @user = User.find(session[:user])
+    @user = User.get(session[:user])
     @users = User.all
     @messages = Message.all
     erb :home, :layout => :layout
   end
 
   post '/new' do
-    @user = User.find(session[:user])
-    flash[:notice] = "The message exceeds 240 characters." unless Message.create(params[:new_message], @user.id)
+    @user = User.get(session[:user])
+    flash[:notice] = "The message exceeds 240 characters." unless Message.create(content: params[:new_message], 
+                                                                                user: @user.username, 
+                                                                                created_at: DateTime.now.strftime('%a, %d %b %Y %H:%M'))
     redirect '/home'
   end
 
@@ -75,18 +82,21 @@ class Chitter < Sinatra::Base
   end
 
   get '/message/:id/edit' do
-    @message = Message.find(params[:id])
+    @message = Message.get(params[:id])
     erb :edit
   end
 
   patch '/message/:id' do
-    Message.edit(params[:id], params[:content])
+    @message = Message.get(params[:id])
+    @message.content = params[:content]
+    @message.save
+    # Message.edit(params[:id], params[:content])
     flash[:notice] = "Succesfully updated."
     redirect '/home'
   end
 
   delete '/message/:id' do
-    Message.delete(params[:id])
+    Message.get(params[:id]).destroy
     flash[:notice] = "Message has been successfully deleted."
     redirect '/home'
   end

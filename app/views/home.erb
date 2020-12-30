@@ -14,12 +14,12 @@
 <% end %>
 
 <div class="post-wrapper">
-<% @messages.each do |message| %>
+<% @messages.reverse.each do |message| %>
   <div class="post-box">
-  <div id="name"><b><%= message.name(message.user_id) %></b> <span class="username">@<%= message.username(message.user_id) %> </span> </div>
+  <div id="name"><b><%= message.user %></b> <span class="username">@<%= message.user %> </span> </div>
   <div id="content"><%= message.content %> </div>
   <div id="timestamp"><%= message.created_at %></div>
-  <% if @user && (message.user_id == @user.id) %>
+  <% if message.user == @user.username %>
   <form action="/message/<%= message.id %>/edit" method="get" style="display: inline">
     <button type="submit" class="button">Edit</button>
   </form>
