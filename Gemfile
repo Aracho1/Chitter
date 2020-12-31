@@ -15,6 +15,3 @@ gem 'simplecov-console', require: false
 gem 'sinatra-flash', '~> 0.3.0'
 gem 'bcrypt', '~> 3.1.11'
 gem 'rack'
-gem 'rom',     '~> 5.2'
-gem 'rom-sql', '~> 3.2'
-gem 'sequel-pg'
