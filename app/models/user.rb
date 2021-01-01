@@ -34,6 +34,10 @@ class User
     User.new(id:result[0]['id'], username:result[0]['username'], name:result[0]['name'], email:result[0]['email'], password:result[0]['password'])
   end
 
+  def self.find_email(id)
+    DBConnection.query("SELECT email FROM users where id=#{id}")[0]['email']
+  end
+
   def self.username_taken?(username)
     result = DBConnection.query("SELECT * FROM users where username='#{username}'")
     return false if result.count.zero?

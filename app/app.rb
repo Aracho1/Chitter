@@ -4,8 +4,10 @@ require 'sinatra/base'
 require 'sinatra/flash'
 require './app/models/message'
 require './app/models/user'
+require './app/models/tag'
 require './db_setup'
 require './lib/seeds'
+require 'mail'
 
 
 class Chitter < Sinatra::Base
@@ -89,6 +91,25 @@ class Chitter < Sinatra::Base
   delete '/message/:id' do
     Message.delete(params[:id])
     flash[:notice] = "Message has been successfully deleted."
+    redirect '/home'
+  end
+  
+  get '/message/:id/tag' do
+    @message = Message.find(params[:id])
+    @users = User.all
+    erb :tag
+  end
+
+  post '/message/:id/tag/:user_id' do
+    Tag.create(params[:id], params[:user_id])
+    email = User.find(params[:user_id])
+    Mail.deliver do
+      from     'jarjeb@email.com'
+      to       "#{email}"
+      subject  'You were tagged in a peep'
+      body     'Check out Chitter to see the tagged message'
+    end
+    flash[:notice] = "Succesfully tagged. An email was sent to the user."
     redirect '/home'
   end
 

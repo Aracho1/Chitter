@@ -11,7 +11,7 @@ class Message
   end
   
   def self.all
-    p result = DBConnection.query("SELECT id, content, to_char(created_at, 'Mon DD, YYYY HH24:MI'), user_id FROM messages ORDER BY created_at DESC")
+    result = DBConnection.query("SELECT id, content, to_char(created_at, 'Mon DD, YYYY HH24:MI'), user_id FROM messages ORDER BY created_at DESC")
     result.map do |message|
       Message.new(id: message['id'], content: message['content'], created_at: message['to_char'], user_id: message['user_id'])
     end

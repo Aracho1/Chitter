@@ -21,6 +21,9 @@
   <div id="name"><b><%= message.name(message.user_id) %></b> <span class="username">@<%= message.username(message.user_id) %> </span> </div>
   <div id="content"><%= message.content %> </div>
   <div id="timestamp"><%= message.created_at %></div>
+  <form action="/message/<%= message.id%>/tag" method="get" style="display: inline">
+  <button type="submit" class="button">Tag</button>
+  </form>
   <% if @user && (message.user_id == @user.id) %>
   <form action="/message/<%= message.id %>/edit" method="get" style="display: inline">
     <button type="submit" class="button">Edit</button>
@@ -29,6 +32,7 @@
     <input type="hidden" name="_method" value="Delete">
     <button type="submit" class="button">Delete</button>
   </form>
+
   <%end%>
   </div>
 <% end %>
