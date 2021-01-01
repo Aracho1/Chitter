@@ -5,6 +5,7 @@ require 'sinatra/flash'
 require './app/models/message'
 require './app/models/user'
 require './db_setup'
+require './lib/seeds'
 
 
 class Chitter < Sinatra::Base
