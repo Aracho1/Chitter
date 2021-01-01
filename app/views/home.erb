@@ -20,7 +20,13 @@
   <div class="post-box">
   <div id="name"><b><%= message.name(message.user_id) %></b> <span class="username">@<%= message.username(message.user_id) %> </span> </div>
   <div id="content"><%= message.content %> </div>
-  <div id="timestamp"><%= message.created_at %></div>
+  <div class="tagged_users">
+  <% Tag.show_tagged_users(message.id).each do |tag| %>
+    @<%= User.find_username(tag)%>
+  <% end%>
+
+
+  </div>
   <form action="/message/<%= message.id%>/tag" method="get" style="display: inline">
   <button type="submit" class="button">Tag</button>
   </form>
@@ -32,10 +38,13 @@
     <input type="hidden" name="_method" value="Delete">
     <button type="submit" class="button">Delete</button>
   </form>
-
   <%end%>
+  <div id="timestamp"><%= message.created_at %></div>
+
   </div>
+
 <% end %>
+
 </div>
 </div>
 

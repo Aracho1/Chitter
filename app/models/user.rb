@@ -35,7 +35,11 @@ class User
   end
 
   def self.find_email(id)
-    DBConnection.query("SELECT email FROM users where id=#{id}")[0]['email']
+    result = DBConnection.query("SELECT email FROM users where id=#{id}")[0]['email']
+  end
+
+  def self.find_username(id)
+    result = DBConnection.query("SELECT username FROM users where id=#{id}")[0]['username']
   end
 
   def self.username_taken?(username)

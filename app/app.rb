@@ -5,6 +5,7 @@ require 'sinatra/flash'
 require './app/models/message'
 require './app/models/user'
 require './app/models/tag'
+require './app/models/mail'
 require './db_setup'
 require './lib/seeds'
 require 'mail'
@@ -102,13 +103,14 @@ class Chitter < Sinatra::Base
 
   post '/message/:id/tag/:user_id' do
     Tag.create(params[:id], params[:user_id])
-    email = User.find(params[:user_id])
-    Mail.deliver do
-      from     'jarjeb@email.com'
-      to       "#{email}"
-      subject  'You were tagged in a peep'
-      body     'Check out Chitter to see the tagged message'
-    end
+    user_email = User.find_email(params[:user_id])
+    # mail = Mail.new do
+    #   from     'jarjeb@gmail.com'
+    #   to       "#{user_email}"
+    #   subject  'You were tagged in a peep'
+    #   body     'Check out Chitter to see the tagged message'
+    # end
+    # mail.deliver!
     flash[:notice] = "Succesfully tagged. An email was sent to the user."
     redirect '/home'
   end

@@ -88,6 +88,7 @@ ul {
 #timestamp{
   color: grey;
   font-size: 9px;
+  text-align: right;
 }
 
 input {
@@ -304,4 +305,9 @@ body#edit {
 
 .edit#message-box {
   width: 100px;
+}
+
+.tagged_users{
+  color:grey;
+  font-size: 12px;
 }
