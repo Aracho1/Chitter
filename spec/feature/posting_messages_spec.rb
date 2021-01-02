@@ -14,13 +14,6 @@ feature 'posting a message' do
     expect(page).to have_content 'hi'
   end
 
-  scenario 'message shows username' do
-    sign_up
-    log_in
-    fill_in 'new_message', with:'hi'
-    click_button 'Chit'
-    expect(page).to have_content 'Panda hi'
-  end
 
   scenario 'app does not throw an error when special characters are used' do
     sign_up

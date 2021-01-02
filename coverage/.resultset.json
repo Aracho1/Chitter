@@ -19,13 +19,6 @@
           1,
           null,
           null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
           null,
           1,
           1,
@@ -48,13 +41,14 @@
           3,
           3,
           3,
+          3,
           null,
           null,
           1,
-          3,
-          3,
-          3,
-          3,
+          2,
+          2,
+          2,
+          2,
           null
         ]
       },
@@ -64,12 +58,6 @@
           1,
           1,
           1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
           1,
           1,
           1,
@@ -97,17 +85,8 @@
       "/Users/aracho/Makers/Projects/Chitter/spec/feature/signing_up_spec.rb": {
         "lines": [
           1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
           null,
-          null,
+          1,
           1,
           1,
           1,
@@ -217,6 +196,6 @@
         ]
       }
     },
-    "timestamp": 1609005402
+    "timestamp": 1609589795
   }
 }
