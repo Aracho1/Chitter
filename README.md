@@ -42,3 +42,9 @@ As a Maker
 So that I can stay constantly tapped in to the shouty box of Chitter
 I want to receive an email if I am tagged in a Peep
 ```
+Screenshots:
+-------
+![main](https://github.com/Aracho1/Chitter/blob/main/public/screenshots/main.png)
+![sign_up](https://github.com/Aracho1/Chitter/blob/main/public/screenshots/sign_up.png)
+![message_board](https://github.com/Aracho1/Chitter/blob/main/public/screenshots/message_board_tags.png)
+![edit_message](https://github.com/Aracho1/Chitter/blob/main/public/screenshots/edit_message.png)
